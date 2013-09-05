@@ -843,7 +843,7 @@ u32 ddl_calc_enc_hw_buffers_size(enum vcd_codec codec, u32 width,
 					8, DDL_KILO_BYTE(2));
 		}
 		if ((codec == VCD_CODEC_MPEG4) ||
-			(codec == VCD_CODEC_H264)) {
+			(codec == VCD_CODEC_H263)) {
 			sz_acdc_coef = DDL_ALIGN((width / 2) * 8,
 						DDL_KILO_BYTE(2));
 		} else if (codec == VCD_CODEC_H264) {

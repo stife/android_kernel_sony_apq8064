@@ -469,6 +469,34 @@ static void ddl_encode_set_profile_level(struct ddl_client_context *ddl)
 		{
 			level = VIDC_720P_H264_LEVEL3p1;
 			break;
+	case VCD_LEVEL_H264_3p2:
+		{
+			level = VIDC_720P_H264_LEVEL4;
+			break;
+	case VCD_LEVEL_H264_4:
+		{
+			level = VIDC_720P_H264_LEVEL4;
+			break;
+		}
+	case VCD_LEVEL_H264_4p1:
+		{
+			level = VIDC_720P_H264_LEVEL4p1;
+			break;
+		}
+	case VCD_LEVEL_H264_4p2:
+		{
+			level = VIDC_720P_H264_LEVEL4p2;
+			break;
+		}
+	case VCD_LEVEL_H264_5:
+		{
+			level = VIDC_720P_H264_LEVEL5;
+			break;
+		}
+	case VCD_LEVEL_H264_5p1:
+		{
+			level = VIDC_720P_H264_LEVEL5p1;
+			break;
 		}
 	case VCD_LEVEL_H263_10:
 		{

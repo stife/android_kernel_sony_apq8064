@@ -22,20 +22,20 @@
 #define DEFAULT_WIDTH 1280
 #define MIN_NUM_OUTPUT_BUFFERS 2
 #define MAX_NUM_OUTPUT_BUFFERS 8
-#define MIN_BIT_RATE 64000
-#define MAX_BIT_RATE 160000000
-#define DEFAULT_BIT_RATE 64000
+#define MIN_BIT_RATE 20000000
+#define MAX_BIT_RATE 100000000
+#define DEFAULT_BIT_RATE 40000000
 #define BIT_RATE_STEP 100
-#define MIN_FRAME_RATE 65536
-#define MAX_FRAME_RATE 15728640
-#define DEFAULT_FRAME_RATE 1966080
-#define DEFAULT_IR_MBS 30
+#define MIN_FRAME_RATE 30
+#define MAX_FRAME_RATE 120
+#define DEFAULT_FRAME_RATE 60
+#define DEFAULT_IR_MBS 60
 #define MAX_SLICE_BYTE_SIZE 1024
 #define MIN_SLICE_BYTE_SIZE 1024
 #define MAX_SLICE_MB_SIZE 300
-#define I_FRAME_QP 26
-#define P_FRAME_QP 28
-#define B_FRAME_QP 30
+#define I_FRAME_QP 51
+#define P_FRAME_QP 51
+#define B_FRAME_QP 51
 #define MAX_INTRA_REFRESH_MBS 300
 #define L_MODE V4L2_MPEG_VIDEO_H264_LOOP_FILTER_MODE_DISABLED_AT_SLICE_BOUNDARY
 #define CODING V4L2_MPEG_VIDEO_MPEG4_PROFILE_ADVANCED_CODING_EFFICIENCY
@@ -62,6 +62,34 @@ static const char *const h264_video_entropy_cabac_model[] = {
 	"Model 1",
 	"Model 2",
 	NULL
+};
+
+static const char *const h264_level[] = {
+	"1.0",
+	"1.b",
+	"1.1",
+	"1.2",
+	"1.3",
+	"2.0",
+	"2.1",
+	"2.2",
+	"3.0",
+	"3.1",
+	"3.2",
+	"4.0",
+	"4.1",
+	"4.2",
+	"5.0",
+	"5.1",
+};
+
+static const char *const h264_profile[] = {
+	"Baseline",
+	"High",
+	"Extended",
+	"High10",
+	"high422",
+	"high444",
 };
 
 static const char *const h263_level[] = {
@@ -223,9 +251,9 @@ static const struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
 		.name = "H264 Profile",
 		.type = V4L2_CTRL_TYPE_MENU,
-		.minimum = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
-		.maximum = V4L2_MPEG_VIDEO_H264_PROFILE_MULTIVIEW_HIGH,
-		.default_value = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
+		.minimum = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH10,
+		.maximum = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH10,
+		.default_value = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH10,
 		.step = 1,
 		.menu_skip_mask = 0,
 	},
@@ -233,9 +261,9 @@ static const struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.id = V4L2_CID_MPEG_VIDEO_H264_LEVEL,
 		.name = "H264 Level",
 		.type = V4L2_CTRL_TYPE_MENU,
-		.minimum = V4L2_MPEG_VIDEO_H264_LEVEL_1_0,
+		.minimum = V4L2_MPEG_VIDEO_H264_LEVEL_4_1,
 		.maximum = V4L2_MPEG_VIDEO_H264_LEVEL_5_1,
-		.default_value = V4L2_MPEG_VIDEO_H264_LEVEL_1_0,
+		.default_value = V4L2_MPEG_VIDEO_H264_LEVEL_5_1,
 		.step = 0,
 		.menu_skip_mask = 0,
 	},
@@ -265,7 +293,7 @@ static const struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.type = V4L2_CTRL_TYPE_MENU,
 		.minimum = V4L2_MPEG_VIDC_VIDEO_H263_LEVEL_1_0,
 		.maximum = V4L2_MPEG_VIDC_VIDEO_H263_LEVEL_7_0,
-		.default_value = V4L2_MPEG_VIDC_VIDEO_H263_LEVEL_1_0,
+		.default_value = V4L2_MPEG_VIDC_VIDEO_H263_LEVEL_6_0,
 		.menu_skip_mask = ~(
 		(1 << V4L2_MPEG_VIDC_VIDEO_H263_LEVEL_1_0) |
 		(1 << V4L2_MPEG_VIDC_VIDEO_H263_LEVEL_2_0) |
@@ -299,7 +327,7 @@ static const struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.type = V4L2_CTRL_TYPE_INTEGER,
 		.minimum = 1,
 		.maximum = 51,
-		.default_value = I_FRAME_QP,
+		.default_value = 51,
 		.step = 1,
 		.menu_skip_mask = 0,
 		.qmenu = NULL,
@@ -310,7 +338,7 @@ static const struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.type = V4L2_CTRL_TYPE_INTEGER,
 		.minimum = 1,
 		.maximum = 51,
-		.default_value = P_FRAME_QP,
+		.default_value = 51,
 		.step = 1,
 		.menu_skip_mask = 0,
 		.qmenu = NULL,
@@ -321,7 +349,7 @@ static const struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.type = V4L2_CTRL_TYPE_INTEGER,
 		.minimum = 1,
 		.maximum = 51,
-		.default_value = B_FRAME_QP,
+		.default_value = 51,
 		.step = 1,
 		.menu_skip_mask = 0,
 		.qmenu = NULL,
@@ -447,12 +475,12 @@ static const struct msm_vidc_ctrl msm_venc_ctrls[] = {
 
 #define NUM_CTRLS ARRAY_SIZE(msm_venc_ctrls)
 
-static u32 get_frame_size_nv12(int plane, u32 height, u32 width)
+static u32 get_frame_size_nv16(int plane, u32 height, u32 width)
 {
 	return ((height + 31) & (~31)) * ((width + 31) & (~31)) * 3/2;
 }
 
-static u32 get_frame_size_nv21(int plane, u32 height, u32 width)
+static u32 get_frame_size_nv61(int plane, u32 height, u32 width)
 {
 	return height * width * 2;
 }
@@ -469,17 +497,17 @@ static struct hal_quantization
 static struct hal_intra_period
 	venc_intra_period = {2*DEFAULT_FRAME_RATE-1 , 0};
 static struct hal_profile_level
-	venc_h264_profile_level = {HAL_H264_PROFILE_BASELINE,
-		HAL_H264_LEVEL_1};
+	venc_h264_profile_level = {HAL_H264_PROFILE_HIGH10,
+		HAL_H264_LEVEL_5};
 static struct hal_profile_level
-	venc_mpeg4_profile_level = {HAL_MPEG4_PROFILE_SIMPLE,
+	venc_mpeg4_profile_level = {HAL_MPEG4_PROFILE_ADVANCED_SIMPLE,
 		HAL_MPEG4_LEVEL_0};
 static struct hal_profile_level
 	venc_h263_profile_level = {HAL_H263_PROFILE_BASELINE,
-				HAL_H263_LEVEL_10};
+				HAL_H263_LEVEL_60};
 static struct hal_h264_entropy_control
 	venc_h264_entropy_control = {HAL_H264_ENTROPY_CAVLC,
-		HAL_H264_CABAC_MODEL_0};
+		HAL_H264_CABAC_MODEL_1};
 static struct hal_multi_slice_control
 	venc_multi_slice_control = {HAL_MULTI_SLICE_OFF ,
 		0};
@@ -489,11 +517,11 @@ static struct hal_intra_refresh
 
 static const struct msm_vidc_format venc_formats[] = {
 	{
-		.name = "YCbCr Semiplanar 4:2:0",
-		.description = "Y/CbCr 4:2:0",
-		.fourcc = V4L2_PIX_FMT_NV12,
+		.name = "YCbCr Semiplanar 4:2:2",
+		.description = "Y/CbCr 4:2:2",
+		.fourcc = V4L2_PIX_FMT_NV16,
 		.num_planes = 1,
-		.get_frame_size = get_frame_size_nv12,
+		.get_frame_size = get_frame_size_nv16,
 		.type = OUTPUT_PORT,
 	},
 	{
@@ -529,11 +557,11 @@ static const struct msm_vidc_format venc_formats[] = {
 		.type = CAPTURE_PORT,
 	},
 	{
-		.name = "YCrCb Semiplanar 4:2:0",
-		.description = "Y/CrCb 4:2:0",
-		.fourcc = V4L2_PIX_FMT_NV21,
+		.name = "YCrCb Semiplanar 4:2:2",
+		.description = "Y/CrCb 4:2:2",
+		.fourcc = V4L2_PIX_FMT_NV61,
 		.num_planes = 1,
-		.get_frame_size = get_frame_size_nv21,
+		.get_frame_size = get_frame_size_nv61,
 		.type = OUTPUT_PORT,
 	},
 };
@@ -972,7 +1000,7 @@ static int msm_venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
 			control.value = HAL_H264_LEVEL_42;
 			break;
 		case V4L2_MPEG_VIDEO_H264_LEVEL_5_0:
-			control.value = HAL_H264_LEVEL_3;
+			control.value = HAL_H264_LEVEL_50;
 			break;
 		case V4L2_MPEG_VIDEO_H264_LEVEL_5_1:
 			control.value = HAL_H264_LEVEL_51;

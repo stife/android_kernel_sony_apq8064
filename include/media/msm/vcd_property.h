@@ -212,6 +212,7 @@ enum vcd_codec_level {
 	VCD_LEVEL_H264_4p2      = 0x1D,
 	VCD_LEVEL_H264_5        = 0x1E,
 	VCD_LEVEL_H264_5p1      = 0x1F,
+	VCD_LEVEL_H264_MAX      = 0x2A,
 	VCD_LEVEL_H263_10       = 0x20,
 	VCD_LEVEL_H263_20       = 0x21,
 	VCD_LEVEL_H263_30       = 0x22,

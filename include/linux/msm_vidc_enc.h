@@ -99,6 +99,11 @@
 #define VEN_LEVEL_H264_3p1	0x12/* H.264 Level 3.1 */
 #define VEN_LEVEL_H264_3p2	0x13/* H.264 Level 3.2 */
 #define VEN_LEVEL_H264_4	0x14/* H.264 Level 4   */
+#define VEN_LEVEL_H264_4p1	0x2A/* H.264 Level 4.1 */
+#define VEN_LEVEL_H264_4p2	0x2B/* H.264 Level 4.2 */
+#define VEN_LEVEL_H264_5	0x2C/* H.264 Level 5   */
+#define VEN_LEVEL_H264_5p1	0x2D/* H.264 Level 5.1 */
+#define VEN_LEVEL_H264_MAX	0x2F/* H.264 Level 5.1 1080P_H264_LEVEL_MAX*/
 
 #define VEN_LEVEL_H263_10	0x15/* H.263 Level 10  */
 #define VEN_LEVEL_H263_20	0x16/* H.263 Level 20  */

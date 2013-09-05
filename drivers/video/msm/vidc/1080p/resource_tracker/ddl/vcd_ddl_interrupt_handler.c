@@ -284,7 +284,7 @@ static u32 ddl_decoder_seq_done_callback(struct ddl_context *ddl_context,
 				decoder->profile.profile ==
 				VCD_PROFILE_UNKNOWN) {
 				if ((disp_profile_info.chroma_format_idc >
-					VIDC_1080P_IDCFORMAT_422) ||
+					VIDC_1080P_IDCFORMAT_420) ||
 					(disp_profile_info.bit_depth_luma_minus8
 					 || disp_profile_info.
 					bit_depth_chroma_minus8)) {
@@ -1582,9 +1582,6 @@ static void ddl_get_h264_dec_level(enum vcd_codec_level *level,
 	break;
 	case VIDC_1080P_H264_LEVEL5p1:
 		*level = VCD_LEVEL_H264_5p1;
-	break;
-	case VIDC_1080P_H264_LEVELMAX:
-		*level = VCD_LEVEL_H264_MAX;
 	break;
 	default:
 		*level = VCD_LEVEL_UNKNOWN;

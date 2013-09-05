@@ -647,6 +647,21 @@ u32 vid_enc_set_get_profile_level(struct video_client_ctx *client_ctx,
 		case VEN_LEVEL_H264_4:
 			level.level = VCD_LEVEL_H264_4;
 			break;
+		case VEN_LEVEL_H264_4p1:
+			level.level = VCD_LEVEL_H264_4p1;
+			break;
+		case VEN_LEVEL_H264_4p2:
+			level.level = VCD_LEVEL_H264_4p2;
+			break;
+		case VEN_LEVEL_H264_5:
+			level.level = VCD_LEVEL_H264_5;
+			break;
+		case VEN_LEVEL_H264_5p1:
+			level.level = VCD_LEVEL_H264_5p1;
+			break;
+		case VEN_LEVEL_H264_MAX:
+			level.level = VCD_LEVEL_H264_MAX;
+			break;
 		case VEN_LEVEL_H263_10:
 			level.level = VCD_LEVEL_H263_10;
 			break;
@@ -750,7 +765,19 @@ u32 vid_enc_set_get_profile_level(struct video_client_ctx *client_ctx,
 				profile_level->level = VEN_LEVEL_H264_3p2;
 				break;
 			case VCD_LEVEL_H264_4:
-				profile_level->level = VEN_LEVEL_H264_4;
+				profile_level->level = VEN_LEVEL_H264_5;
+				break;
+			case VCD_LEVEL_H264_4p1:
+				profile_level->level = VEN_LEVEL_H264_4p1;
+				break;
+			case VCD_LEVEL_H264_4p2:
+				profile_level->level = VEN_LEVEL_H264_4p2;
+				break;
+			case VCD_LEVEL_H264_5:
+				profile_level->level = VEN_LEVEL_H264_5;
+				break;
+			case VCD_LEVEL_H264_5p1:
+				profile_level->level = VEN_LEVEL_H264_5p1;
 				break;
 			case VCD_LEVEL_H263_10:
 				profile_level->level = VEN_LEVEL_H263_10;
@@ -774,7 +801,6 @@ u32 vid_enc_set_get_profile_level(struct video_client_ctx *client_ctx,
 				profile_level->level = VEN_LEVEL_H263_60;
 				break;
 			case VCD_LEVEL_H263_70:
-				status = false;
 				break;
 			default:
 				status = false;

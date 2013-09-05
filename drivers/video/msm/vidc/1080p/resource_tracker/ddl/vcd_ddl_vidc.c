@@ -488,9 +488,6 @@ static void ddl_vidc_encode_set_profile_level(
 	case VCD_LEVEL_H264_5p1:
 		level = VIDC_1080P_H264_LEVEL5p1;
 	break;
-	case VCD_LEVEL_H264_MAX:
-		level = VIDC_1080P_H264_LEVELMAX;
-	break;
 	case VCD_LEVEL_H263_10:
 		level = VIDC_1080P_H263_LEVEL10;
 	break;

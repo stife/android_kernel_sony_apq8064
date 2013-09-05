@@ -27,7 +27,7 @@
 #define DDL_MAX_DP_FRAME_WIDTH  352
 #define DDL_MAX_DP_FRAME_HEIGHT 288
 
-#define DDL_MAX_BIT_RATE (14*1000*1000)
+#define DDL_MAX_BIT_RATE 100000000
 
 #define DDL_SW_RESET_SLEEP 10
 
@@ -62,7 +62,7 @@
 #define DDL_MINIMUM_BYTE_PER_SLICE  1920
 
 #define DDL_MAX_H264_QP   51
-#define DDL_MAX_MPEG4_QP  31
+#define DDL_MAX_MPEG4_QP  51
 
 #define DDL_PADDING_HACK(addr) \
  (addr) = (u32)((((u32)(addr) + DDL_STREAMBUF_ALIGN_GUARD_BYTES) & \
@@ -73,7 +73,7 @@
 #define DDL_QVGA_MBS 300
 #define DDL_VGA_MBS  1200
 #define DDL_WVGA_MBS 1500
-#define DDL_720P_MBS 3600
+#define DDL_720P_MBS 20000
 
 #define DDL_FRAMESIZE_DIV_FACTOR   (0xF)
 

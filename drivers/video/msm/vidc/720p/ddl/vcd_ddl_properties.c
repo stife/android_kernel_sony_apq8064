@@ -477,9 +477,9 @@ static u32 ddl_set_enc_property(struct ddl_client_context *ddl,
 				 (encoder->codec.codec ==
 					VCD_CODEC_H264 &&
 				 (profile->profile >=
-					VCD_PROFILE_H264_BASELINE ||
+					VCD_PROFILE_H264_HIGH ||
 				  profile->profile <=
-					VCD_PROFILE_H264_HIGH)) ||
+					VCD_PROFILE_H264_HIGH10)) ||
 				 (encoder->codec.codec ==
 					VCD_CODEC_H263 &&
 				  profile->profile ==
@@ -517,8 +517,8 @@ static u32 ddl_set_enc_property(struct ddl_client_context *ddl,
 				(
 				(encoder->codec.
 				 codec == VCD_CODEC_H264) &&
-				(level->level >= VCD_LEVEL_H264_1) &&
-				(level->level <= VCD_LEVEL_H264_3p1)
+				(level->level >= VCD_LEVEL_H264_4) &&
+				(level->level <= VCD_LEVEL_H264_5)
 				) ||
 				(
 				(encoder->codec.

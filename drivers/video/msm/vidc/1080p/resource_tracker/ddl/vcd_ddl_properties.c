@@ -545,8 +545,8 @@ static u32 ddl_check_valid_enc_level(struct vcd_property_codec *codec,
 				(level->level <= VCD_LEVEL_MPEG4_5));
 		break;
 		case VCD_CODEC_H264:
-		status = (level->level >= VCD_LEVEL_H264_5) &&
-				(level->level <= VCD_LEVEL_H264_5);
+		status = (level->level >= VCD_LEVEL_H264_1) &&
+				(level->level <= VCD_LEVEL_H264_4);
 		break;
 		case VCD_CODEC_H263:
 		status = (level->level >= VCD_LEVEL_H263_10) &&
